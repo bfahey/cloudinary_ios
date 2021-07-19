@@ -87,6 +87,14 @@ to use a custom network adapter you must implement the `CLDNetworkAdapter` proto
     func setBackgroundCompletionHandler(_ newValue: (() -> ())?)
     
     /**
+    Set a completion handler to be called by the URLSessionTaskDelegate
+    `urlSession(_:task:didCompleteWithError:)` method.
+    
+    default is `nil`.
+    */
+    func setTaskDidCompleteHandler(_ newValue: ((URLSession, URLSessionTask, Error?) -> Void)?)
+    
+    /**
      The maximum number of queued downloads that can execute at the same time.
      
      The default value of this property is NSOperationQueueDefaultMaxConcurrentOperationCount.

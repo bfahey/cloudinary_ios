@@ -147,6 +147,10 @@ internal class CLDNSessionManager {
     /// `nil` by default.
     internal var backgroundCompletionHandler: (() -> Void)?
 
+    /// The completion handler to be called by the URLSessionDataDelegate
+    /// `urlSession(_:task:didCompleteWithError:)` method.
+    internal var taskDidCompleteHandler: ((URLSession, URLSessionTask, Error?) -> Void)?
+    
     let queue = DispatchQueue(label: "com.cloudinary.session-manager." + UUID().uuidString)
 
     // MARK: - Lifecycle
@@ -198,6 +202,13 @@ internal class CLDNSessionManager {
         delegate.sessionDidFinishEventsForBackgroundURLSession = { [weak self] session in
             guard let strongSelf = self else { return }
             DispatchQueue.main.async { strongSelf.backgroundCompletionHandler?() }
+        }
+        
+        delegate.taskDidComplete = { [weak self] session, task, error in
+            guard let strongSelf = self else { return }
+            session.delegateQueue.addOperation {
+                strongSelf.taskDidCompleteHandler?(session, task, error)
+            }
         }
     }
 

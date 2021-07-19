@@ -130,6 +130,10 @@ internal class CLDDefaultNetworkAdapter: NSObject, CLDNetworkAdapter {
     internal func setBackgroundCompletionHandler(_ newValue: (() -> ())?) {
         manager.backgroundCompletionHandler = newValue
     }
+    
+    internal func setTaskDidCompleteHandler(_ newValue: ((URLSession, URLSessionTask, Error?) -> Void)?) {
+        manager.taskDidCompleteHandler = newValue
+    }
 
     internal func setMaxConcurrentDownloads(_ maxConcurrentDownloads: Int) {
         downloadQueue.maxConcurrentOperationCount = maxConcurrentDownloads

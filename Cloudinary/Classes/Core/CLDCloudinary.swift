@@ -256,6 +256,16 @@ public typealias CLDUploadCompletionHandler = (_ response: CLDUploadResult?, _ e
     open func setBackgroundCompletionHandler(_ newValue: (() -> ())?) {
         networkCoordinator.setBackgroundCompletionHandler(newValue)
     }
+    
+    /**
+     Set a completion handler that gets called by the URLSessionTaskDelegate
+     `urlSession(_:task:didCompleteWithError:)` method when a client-side error occurs.
+     
+     default is `nil`.
+     */
+    open func setTaskDidCompleteHandler(_ newValue: ((URLSession, URLSessionTask, Error?) -> Void)?) {
+        networkCoordinator.setTaskDidCompleteHandler(newValue)
+    }
 
     // MARK: - Advanced
     /**
